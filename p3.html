@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="static/css/styles.css">
+  </head>
+  <body>
+    <h2><p style="text-align: center;>Results:"></p></h2>
+  {% if predition==1%}
+  <h2style="colour:red;">You have a liver  desease problem,You must concern doctor.</h2>
+  <h3>Symptoms</h3>
+  <p>Classic symtoms of liver disease include:</p>
+  <ul>
+    <li>nausea</li>
+    <li>vomiting</li>
+    <li>right upper quadrentabdominal pain and </li>
+    <li>jaundicce (a yellow discoloration of the skin due to elevated bilirubin concentration in the liver.)</li>
+  </ul>
+ 
+  <br>
+  {% else %}
+  <h2 style ="color: black;">No Worries!!! You don't have Liver Disease.</h2>
+  {% endif %}
+  </body>
+</html>

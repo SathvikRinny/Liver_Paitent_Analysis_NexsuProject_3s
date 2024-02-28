@@ -1,0 +1,11 @@
+body {
+  background-image: url('/static/css/doc1.jpeg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: 100% 100%;
+}
+   .rectangle{
+    width: 300px;
+    height: 500px;
+    border: 5px solid white;
+  }
