@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="hero">
+    <div class="container hero-grid">
+        <div>
+            <p class="eyebrow">Machine-learning screening tool</p>
+            <h1>Check your liver disease risk in under a minute</h1>
+            <p class="lead">Enter ten values from a routine liver function test. A model trained on
+                {{ metrics.n_samples }} patient records estimates the likelihood of liver disease and highlights
+                any results outside the typical range.</p>
+            <a class="btn" href="{{ url_for('form') }}">Start the check →</a>
+        </div>
+        <img class="hero-img" src="{{ url_for('static', filename='img/hero.webp') }}" alt="" width="1200"
+            height="800">
+    </div>
+</section>
+
+<section class="container section">
+    <h2>Why it matters</h2>
+    <div class="grid-3">
+        <article class="tile">
+            <h3>Rising cases</h3>
+            <p>Liver disease is increasing due to alcohol, harmful gases, contaminated food and certain drugs.</p>
+        </article>
+        <article class="tile">
+            <h3>Hard to spot early</h3>
+            <p>Symptoms often appear late, so early signals in blood tests are valuable.</p>
+        </article>
+        <article class="tile">
+            <h3>Helping doctors</h3>
+            <p>Prediction models can help prioritise which patients need a closer look.</p>
+        </article>
+    </div>
+</section>
+
+<section class="container section">
+    <h2>About the model</h2>
+    <div class="model-card">
+        <dl class="stats">
+            <div><dt>Algorithm</dt><dd>{{ metrics.model }}</dd></div>
+            <div><dt>ROC AUC</dt><dd>{{ metrics.test.roc_auc }}</dd></div>
+            <div><dt>Accuracy</dt><dd>{{ (metrics.test.accuracy * 100) | round | int }}%</dd></div>
+            <div><dt>Recall</dt><dd>{{ (metrics.test.recall * 100) | round | int }}%</dd></div>
+        </dl>
+        <p class="muted">Scores are measured on a held-out 20% test set. The model was chosen by comparing
+            logistic regression, random forest and gradient boosting with 5-fold cross-validation. See
+            <code>train.py</code> to reproduce it.</p>
+    </div>
+</section>
+{% endblock %}

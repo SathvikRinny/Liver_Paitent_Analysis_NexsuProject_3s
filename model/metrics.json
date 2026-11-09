@@ -1,0 +1,29 @@
+{
+  "model": "Random Forest",
+  "cv_roc_auc": {
+    "Logistic Regression": 0.718,
+    "Random Forest": 0.732,
+    "Gradient Boosting": 0.704
+  },
+  "test": {
+    "roc_auc": 0.779,
+    "accuracy": 0.692,
+    "precision": 0.797,
+    "recall": 0.759,
+    "f1": 0.778
+  },
+  "n_samples": 583,
+  "features": [
+    "Age",
+    "Gender",
+    "Total_Bilirubin",
+    "Direct_Bilirubin",
+    "Alkaline_Phosphotase",
+    "Alamine_Aminotransferase",
+    "Aspartate_Aminotransferase",
+    "Total_Protiens",
+    "Albumin",
+    "Albumin_and_Globulin_Ratio"
+  ],
+  "sklearn_version": "1.9.1"
+}

@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block title %}Your result · Liver Health Check{% endblock %}
+{% block content %}
+{% set pct = (result.probability * 100) | round | int %}
+<section class="container section narrow">
+    <h1>Your result</h1>
+
+    <div class="result result-{{ result.risk }}">
+        <div class="gauge" style="--pct: {{ pct }}" role="img" aria-label="Estimated risk {{ pct }} percent">
+            <span>{{ pct }}%</span>
+        </div>
+        <div>
+            <p class="risk-label">{{ result.risk | capitalize }} risk</p>
+            {% if result.risk == 'high' %}
+            <p>The model found a strong pattern linked to liver disease. Please consult a doctor soon and share
+                your test report with them.</p>
+            {% elif result.risk == 'moderate' %}
+            <p>Some results resemble patterns seen in liver patients. It would be wise to discuss them with a
+                doctor.</p>
+            {% else %}
+            <p>No strong signs of liver disease were found in these values. Keep up regular check-ups.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <h2>Values outside the typical range</h2>
+    {% if result.out_of_range %}
+    <ul class="flags">
+        {% for f in result.out_of_range %}
+        <li>
+            <span><strong>{{ f.label }}</strong>: {{ f.value }} {{ f.unit }}</span>
+            <span class="tag tag-{{ f.direction }}">{{ f.direction }} · typical {{ f.range }}</span>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p class="muted">All values are within typical adult reference ranges.</p>
+    {% endif %}
+
+    {% if result.risk != 'low' %}
+    <div class="symptoms">
+        <img src="{{ url_for('static', filename='img/doctor.webp') }}" alt="" width="1200" height="548"
+            loading="lazy">
+        <div>
+            <h2>Common symptoms to watch for</h2>
+            <ul>
+                <li>Nausea or vomiting</li>
+                <li>Pain in the upper right abdomen</li>
+                <li>Jaundice (yellowing of the skin or eyes)</li>
+                <li>Unusual tiredness, dark urine or pale stools</li>
+            </ul>
+        </div>
+    </div>
+    {% endif %}
+
+    <p class="muted small">Estimate from a {{ metrics.model | lower }} model (ROC AUC {{ metrics.test.roc_auc }}).
+        It can be wrong and is not a diagnosis.</p>
+
+    <div class="form-actions">
+        <a class="btn" href="{{ url_for('form') }}">Check another</a>
+        <a class="btn btn-ghost" href="{{ url_for('home') }}">Home</a>
+    </div>
+</section>
+{% endblock %}

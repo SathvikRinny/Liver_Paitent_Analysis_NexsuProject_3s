@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block title %}Check your risk · Liver Health Check{% endblock %}
+{% block content %}
+<section class="container section narrow">
+    <h1>Enter your test results</h1>
+    <p class="lead">You can find these values on a liver function test (LFT) report.</p>
+
+    {% if errors %}
+    <div class="alert" role="alert">Please fix the highlighted fields below.</div>
+    {% endif %}
+
+    <form class="form" method="post" action="{{ url_for('submit') }}" novalidate>
+        <div class="field">
+            <label for="Gender">Gender</label>
+            <select id="Gender" name="Gender" required {% if errors.Gender %}aria-invalid="true" aria-describedby="Gender-error"{% endif %}>
+                <option value="" {% if not values.Gender %}selected{% endif %} disabled>Choose…</option>
+                <option value="male" {% if values.Gender == 'male' %}selected{% endif %}>Male</option>
+                <option value="female" {% if values.Gender == 'female' %}selected{% endif %}>Female</option>
+            </select>
+            {% if errors.Gender %}<p class="error" id="Gender-error">{{ errors.Gender }}</p>{% endif %}
+        </div>
+
+        {% for name, label, unit, lo, hi, nlo, nhi, help in fields %}
+        <div class="field">
+            <label for="{{ name }}">{{ label }}{% if unit %} <span class="unit">({{ unit }})</span>{% endif %}</label>
+            <input id="{{ name }}" name="{{ name }}" type="number" inputmode="decimal" step="any"
+                min="{{ lo }}" max="{{ hi }}" value="{{ values.get(name, '') }}" required
+                aria-describedby="{{ name }}-help{% if errors[name] %} {{ name }}-error{% endif %}"
+                {% if errors[name] %}aria-invalid="true"{% endif %}>
+            <p class="help" id="{{ name }}-help">{{ help }}</p>
+            {% if errors[name] %}<p class="error" id="{{ name }}-error">{{ errors[name] }}</p>{% endif %}
+        </div>
+        {% endfor %}
+
+        <div class="form-actions">
+            <button class="btn" type="submit">Predict</button>
+            <button class="btn btn-ghost" type="button" id="sample">Fill sample values</button>
+        </div>
+    </form>
+</section>
+
+<script>
+    document.getElementById('sample').addEventListener('click', () => {
+        const sample = {
+            Gender: 'male', Age: 45, Total_Bilirubin: 0.9, Direct_Bilirubin: 0.2,
+            Alkaline_Phosphotase: 180, Alamine_Aminotransferase: 35, Aspartate_Aminotransferase: 38,
+            Total_Protiens: 6.9, Albumin: 3.4, Albumin_and_Globulin_Ratio: 1.0,
+        };
+        Object.entries(sample).forEach(([k, v]) => { document.getElementById(k).value = v; });
+    });
+</script>
+{% endblock %}

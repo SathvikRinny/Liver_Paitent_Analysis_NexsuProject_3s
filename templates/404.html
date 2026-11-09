@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block title %}Page not found · Liver Health Check{% endblock %}
+{% block content %}
+<section class="container section narrow">
+    <h1>Page not found</h1>
+    <p class="lead">The page you were looking for doesn’t exist.</p>
+    <a class="btn" href="{{ url_for('home') }}">Go home</a>
+</section>
+{% endblock %}
